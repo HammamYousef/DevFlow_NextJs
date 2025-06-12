@@ -1,3 +1,4 @@
+import QuestionCard from '@/components/cards/QuestionCard'
 import HomeFilter from '@/components/filters/HomeFilter'
 import LocalSearch from '@/components/search/LocalSearch'
 import { Button } from '@/components/ui/button'
@@ -10,20 +11,56 @@ const someQuestions = [
   {
     id: '1',
     title: 'What is Next.js?',
-    content: 'Next.js is a React framework that enables server-side rendering and static site generation.',
-    tags: ['react', 'nextjs', 'javascript'],
+    tags: [
+      { id: '1', name: 'react' },
+      { id: '2', name: 'nextjs' },
+      { id: '3', name: 'javascript' }
+    ],
+    author: {
+      id: '1',
+      name: 'John Doe',
+      profilePictureUrl: 'https://tse1.mm.bing.net/th/id/OIP.GKAbRpYzDlJa139WC8xPtwHaIC?rs=1&pid=ImgDetMain'
+    },
+    createdAt: new Date('2024-06-01T10:00:00Z'),
+    upvotes: 12,
+    answers: 3,
+    views: 120,
   },
   {
     id: '2',
     title: 'How to use React hooks?',
-    content: 'React hooks are functions that let you use state and other React features without writing a class.',
-    tags: ['react', 'hooks', 'javascript'],
+    tags: [
+      { id: '1', name: 'react' },
+      { id: '4', name: 'hooks' },
+      { id: '3', name: 'javascript' }
+    ],
+    author: {
+      id: '2',
+      name: 'Jane Smith',
+      profilePictureUrl: 'https://tse1.mm.bing.net/th/id/OIP.GKAbRpYzDlJa139WC8xPtwHaIC?rs=1&pid=ImgDetMain'
+    },
+    createdAt: new Date('2024-06-05T14:30:00Z'),
+    upvotes: 8,
+    answers: 2,
+    views: 90,
   },
   {
     id: '3',
     title: 'What is the difference between props and state in React?',
-    content: 'Props are read-only and passed from parent to child, while state is mutable and managed within the component.',
-    tags: ['react', 'props', 'state'],
+    tags: [
+      { id: '1', name: 'react' },
+      { id: '5', name: 'props' },
+      { id: '6', name: 'state' }
+    ],
+    author: {
+      id: '3',
+      name: 'Alice Johnson',
+      profilePictureUrl: 'https://tse1.mm.bing.net/th/id/OIP.GKAbRpYzDlJa139WC8xPtwHaIC?rs=1&pid=ImgDetMain'
+    },
+    createdAt: new Date('2024-06-10T09:15:00Z'),
+    upvotes: 15,
+    answers: 5,
+    views: 200,
   },
 ]
 interface SearchParams {
@@ -35,7 +72,7 @@ const Home = async ({ searchParams } : SearchParams) => {
 
     const queryFilteredQuestions = someQuestions.filter(question => {
       const matchesQuery = question.title.toLowerCase().includes(query.toLowerCase());
-      const matchesFilter = !filter || question.tags.includes(filter.toLowerCase());
+      const matchesFilter = !filter || question.tags.some(tag => tag.name.toLowerCase() === filter.toLowerCase());
       return matchesQuery && matchesFilter;
     });
 
@@ -59,7 +96,9 @@ const Home = async ({ searchParams } : SearchParams) => {
 
       <div className='mt-10 flex w-full flex-col gap-6'>
         {queryFilteredQuestions.map((question) => (
-          <div key={question.id}>{question.title}</div>
+          <div key={question.id}>
+            <QuestionCard key={question.id} question={question}/>
+          </div>
         ))}
       </div>
     </>
