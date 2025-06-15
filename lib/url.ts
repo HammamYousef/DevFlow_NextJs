@@ -1,14 +1,14 @@
-import qs from 'query-string';
+import qs from "query-string";
 
 interface FormUrlQueryParams {
-    params: string;
-    key: string;
-    value: string;
+  params: string;
+  key: string;
+  value: string;
 }
 
 interface RemoveUrlQueryParams {
-    params: string;
-    keysToRemove: string[];
+  params: string;
+  keysToRemove: string[];
 }
 
 export const formUrlQuery = ({ params, key, value }: FormUrlQueryParams) => {
