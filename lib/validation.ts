@@ -68,3 +68,47 @@ export const AskQuestionSchema = z.object({
     .min(1, { message: "At least one tag is required." })
     .max(5, { message: "You can add up to 5 tags." }),
 });
+export const UserSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is required." })
+    .max(50, { message: "Name cannot exceed 50 characters." }),
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least 3 characters long." })
+    .max(30, { message: "Username cannot exceed 30 characters." }),
+  email: z.string().email({
+    message: "Please provide a valid email address.",
+  }),
+  bio: z
+    .string()
+    .max(160, {
+      message: "Bio cannot exceed 160 characters.",
+    })
+    .optional(),
+  image: z
+    .string()
+    .url({
+      message: "Please provide a valid URL for the profile image.",
+    })
+    .optional(),
+  loc: z
+    .string()
+    .max(100, {
+      message: "Location cannot exceed 100 characters.",
+    })
+    .optional(),
+  portfolio: z
+    .string()
+    .url({
+      message: "Please provide a valid URL for the portfolio.",
+    })
+    .optional(),
+  reputation: z
+    .number()
+    .int()
+    .min(0, {
+      message: "Reputation must be a non-negative integer.",
+    })
+    .optional(),
+});
