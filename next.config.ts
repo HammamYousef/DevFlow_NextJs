@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["pino", "pino-pretty"],
   images: {
     remotePatterns: [
       {
@@ -22,7 +23,7 @@ const nextConfig: NextConfig = {
         pathname: "/npm/devicons@latest/icons/**",
       },
     ],
-  }
+  },
 };
 
 export default nextConfig;
