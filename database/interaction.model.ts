@@ -7,6 +7,7 @@ export interface IInteraction {
   actionId: Types.ObjectId;
 }
 
+export interface IInteractionDoc extends IInteraction, Document {}
 const InteractionSchema = new Schema<IInteraction>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },

@@ -10,6 +10,7 @@ export interface IAnswer {
   };
 }
 
+export interface IAnswerDoc extends IAnswer, Document {}
 const AnswerSchema = new Schema<IAnswer>(
   {
     content: { type: String, required: true },
