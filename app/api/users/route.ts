@@ -6,6 +6,7 @@ import { UserSchema } from "@/lib/validation";
 import { APIErrorResponse } from "@/types/global";
 import { NextResponse } from "next/server";
 
+// This route handles GET requests to fetch all users.
 export async function GET() {
   try {
     await dbConnect();
