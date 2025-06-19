@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/npm/devicons@latest/icons/**",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -8,13 +8,13 @@ import { auth, signOut } from "@/auth";
 
 const LeftSidebar = async () => {
   const session = await auth();
-
+  const userId = session?.user?.id;
   return (
     <aside className="custom-scrollbar background-light900_dark200 light-border sticky left-0 top-0 flex h-screen w-fit flex-col justify-between overflow-y-auto border-r p-6 pt-36 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[266px]">
       <nav className="flex flex-col flex-1 gap-6">
-        <NavLinks />
+        <NavLinks userId={userId} />
       </nav>
-      {session?.user ? (
+      {userId ? (
         <form
           action={async () => {
             "use server";
@@ -26,10 +26,18 @@ const LeftSidebar = async () => {
             className="text-dark300_light900 flex-start gap-4 bg-transparent p-4 flex items-center"
           >
             <Image
-              src={"/Icons/logout.svg"}
+              src={`/Icons/${typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "logout-dark.svg" : "logout.svg"}`}
               alt="Logout Icon"
               width={20}
               height={20}
+              className="dark:hidden"
+            />
+            <Image
+              src="/Icons/logout-dark.svg"
+              alt="Logout Icon Dark"
+              width={20}
+              height={20}
+              className="hidden dark:inline"
             />
             <p className="base-medium hidden lg:inline">Logout</p>
           </button>
