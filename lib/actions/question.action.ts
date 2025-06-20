@@ -16,7 +16,7 @@ import mongoose from "mongoose";
 import Question from "@/database/question.model";
 import Tag, { ITagDoc } from "@/database/tag.model";
 import TagQuestion, { ITagQuestion } from "@/database/tag-question.model";
-import { UnauthorizedError } from "../http-errors";
+import { NotFoundError, UnauthorizedError } from "../http-errors";
 
 export async function createQuestion(
   params: CreateQuestionParams
@@ -39,7 +39,7 @@ export async function createQuestion(
 
   try {
     const [question] = await Question.create(
-      [{ title, content, authorId: userId }],
+      [{ title, content, author: userId }],
       { session }
     );
 
@@ -75,14 +75,17 @@ export async function createQuestion(
     await session.commitTransaction();
     return {
       success: true,
-      data: JSON.parse(JSON.stringify(question)),
+      data: {
+        ...JSON.parse(JSON.stringify(question)),
+        id: question._id.toString(),
+      },
       status: 201,
     };
   } catch (error) {
     await session.abortTransaction();
     return handleError(error) as ErrorResponse;
   } finally {
-    await session.endSession();
+    session.endSession();
   }
 }
 
@@ -109,10 +112,10 @@ export async function editQuestion(
     const question = await Question.findById(questionId).populate("tags");
 
     if (!question) {
-      throw new Error("Question not found");
+      throw new NotFoundError("Question not found");
     }
 
-    if (question.authorId.toString() !== userId) {
+    if (question.author.toString() !== userId) {
       throw new UnauthorizedError(
         "You are not authorized to edit this question."
       );

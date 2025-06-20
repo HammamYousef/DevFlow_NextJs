@@ -4,7 +4,7 @@ export interface IQuestion {
   title: string;
   content: string;
   tags: Types.ObjectId[];
-  authorId: Types.ObjectId;
+  author: Types.ObjectId;
   answers?: number;
   views?: number;
   votes?: {
@@ -19,7 +19,7 @@ const QuestionSchema = new Schema<IQuestion>(
     title: { type: String, required: true },
     content: { type: String, required: true },
     tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
-    authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     answers: { type: Number, default: 0 },
     views: { type: Number, default: 0 },
     votes: {

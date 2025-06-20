@@ -3,7 +3,7 @@ import { model, models, Schema, Types, Document } from "mongoose";
 export interface IAnswer {
   content: string;
   questionId: Types.ObjectId;
-  authorId: Types.ObjectId;
+  author: Types.ObjectId;
   votes?: {
     upvotes?: number;
     downvotes?: number;
@@ -19,7 +19,7 @@ const AnswerSchema = new Schema<IAnswer>(
       ref: "Question",
       required: true,
     },
-    authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     votes: {
       upvotes: { type: Number, default: 0 },
       downvotes: { type: Number, default: 0 },

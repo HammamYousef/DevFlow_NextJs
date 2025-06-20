@@ -1,19 +1,20 @@
 import { NextResponse } from "next/server";
 
 interface Tag {
-  id: string;
+  _id: string;
   name: string;
 }
 
 interface Author {
-  id: string;
+  _id: string;
   name: string;
   profilePictureUrl?: string;
 }
 
 interface Question {
-  id: string;
+  _id: string;
   title: string;
+  content: string;
   tags: Tag[];
   author: Author;
   createdAt: Date;
