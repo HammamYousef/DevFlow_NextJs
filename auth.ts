@@ -82,7 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const userInfo = {
         name: user.name!,
         email: user.email!,
-        profileImage: user.image!,
+        image: user.image!,
         username:
           account.provider === "github"
             ? (profile?.login as string)

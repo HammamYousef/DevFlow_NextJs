@@ -4,7 +4,7 @@ interface SignInWithOAuthParams {
   user: {
     name: string;
     email: string;
-    profileImage: string;
+    image: string;
   };
 }
 

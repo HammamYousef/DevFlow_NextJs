@@ -117,7 +117,7 @@ export const UserSchema = z.object({
 export const AccountSchema = z.object({
   userId: z.string().min(1, { message: "User ID is required." }),
   name: z.string().min(1, { message: "Name is required." }),
-  profileImage: z
+  image: z
     .string()
     .url({ message: "Please provide a valid URL for the profile image." })
     .optional(),
@@ -168,4 +168,20 @@ export const EditQuestionSchema = AskQuestionSchema.extend({
 
 export const GetQuestionSchema = z.object({
   questionId: z.string().min(1, { message: "Question ID is required." }),
+});
+
+export const PaginatedSearchParamsSchema = z.object({
+  page: z
+    .number()
+    .int()
+    .positive({ message: "Page must be a positive integer." })
+    .default(1),
+  pageSize: z
+    .number()
+    .int()
+    .positive({ message: "Page size must be a positive integer." })
+    .default(10),
+  query: z.string().optional(),
+  filter: z.string().optional(),
+  sort: z.string().optional(),
 });

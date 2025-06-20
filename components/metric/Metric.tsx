@@ -14,8 +14,8 @@ interface MetricProps {
 }
 
 const Metric = ({
-  imgSrc = '/icons/avatar.svg',
-  alt = 'avatar',
+  imgSrc = "/icons/avatar.svg",
+  alt = "avatar",
   title,
   value,
   href,
@@ -23,30 +23,33 @@ const Metric = ({
   imgStyles,
   isAuthor,
 }: MetricProps) => {
+  const metricContent = (
+    <>
+      <Image
+        src={imgSrc}
+        width={16}
+        height={16}
+        alt={alt}
+        className={`rounded-full object-contain ${imgStyles}`}
+      />
 
-    const metricContent = (
-        <>
-            <Image src={imgSrc} width={16} height={16} alt={alt} className={`rounded-full object-contain ${imgStyles}`}/>
-        
-            <p className={`flex items-center gap-1 ${textStyles}`}>
-                {value}
-                <span className={`small-regular line-clamp-1 ${ isAuthor ? 'max-sm:hidden' : '' }`}>
-                    {title}
-                </span>
-            </p>
-        </>
-    )
+      <p className={`flex items-center gap-1 ${textStyles}`}>
+        {value}
+        <span
+          className={`small-regular line-clamp-1 ${isAuthor ? "max-sm:hidden" : ""}`}
+        >
+          {title}
+        </span>
+      </p>
+    </>
+  );
 
-  return (
-    href ? (
-        <Link className="flex-center gap-1" href={href}>
-            {metricContent}
-        </Link>
-    ) : (
-        <div className="flex-center gap-1">
-            {metricContent}
-        </div>
-    )
+  return href ? (
+    <Link className="flex-center gap-1" href={href}>
+      {metricContent}
+    </Link>
+  ) : (
+    <div className="flex-center gap-1">{metricContent}</div>
   );
 };
 

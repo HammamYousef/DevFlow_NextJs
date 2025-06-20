@@ -8,7 +8,7 @@ interface Tag {
 interface Author {
   _id: string;
   name: string;
-  profilePictureUrl?: string;
+  image?: string;
 }
 
 interface Question {
@@ -46,4 +46,12 @@ type APISuccessResponse<T = null> =
 interface RouteParams {
   params: Promise<Record<string, string>>;
   searchParams: Promise<Record<string, string>>;
+}
+
+interface PaginatedSearchParams {
+  page?: number;
+  pageSize?: number;
+  query?: string;
+  filter?: string;
+  sort?: string;
 }
