@@ -3,12 +3,14 @@ import { NextResponse } from "next/server";
 interface Tag {
   _id: string;
   name: string;
+  description?: string;
+  questionsCount?: number;
 }
 
 interface Author {
   _id: string;
   name: string;
-  image?: string;
+  image: string;
 }
 
 interface Question {
