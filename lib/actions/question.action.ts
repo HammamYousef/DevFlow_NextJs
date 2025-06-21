@@ -55,7 +55,7 @@ export async function createQuestion(
     for (const tag of tags) {
       const existingTag = await Tag.findOneAndUpdate(
         { name: { $regex: new RegExp(`^${tag}$`, "i") } },
-        { $setOnInsert: { name: tag }, $inc: { questions: 1 } },
+        { $setOnInsert: { name: tag }, $inc: { questionsCount: 1 } },
         { upsert: true, new: true, session }
       );
 
@@ -147,7 +147,7 @@ export async function editQuestion(
       for (const tag of tagsToAdd) {
         const existingTag = await Tag.findOneAndUpdate(
           { name: { $regex: `^${tag}$`, $options: "i" } },
-          { $setOnInsert: { name: tag }, $inc: { questions: 1 } },
+          { $setOnInsert: { name: tag }, $inc: { questionsCount: 1 } },
           { upsert: true, new: true, session }
         );
 
@@ -166,7 +166,7 @@ export async function editQuestion(
       const tagIdsToRemove = tagsToRemove.map((tag: ITagDoc) => tag._id);
       await Tag.updateMany(
         { _id: { $in: tagIdsToRemove } },
-        { $inc: { questions: -1 } },
+        { $inc: { questionsCount: -1 } },
         { session }
       );
 
