@@ -4,8 +4,16 @@ import UserAvatar from "../User/UserAvatar";
 import Link from "next/link";
 import ROUTES from "@/constants/routes";
 import { Preview } from "../editor/Preview";
+import { Suspense } from "react";
+import Votes from "../votes/Votes";
+import { hasVoted } from "@/lib/actions/vote.action";
 
-const AnswerCard = ({ _id, author, content, createdAt }: Answer) => {
+const AnswerCard = ({ _id, author, content, createdAt, votes }: Answer) => {
+  const hasVotedPromise = hasVoted({
+    targetId: _id,
+    targetType: "answer",
+  });
+
   return (
     <article className={"light-border border-b py-10 relative"}>
       <span id={`answer-${_id}`} className="hash-span" />
@@ -34,7 +42,16 @@ const AnswerCard = ({ _id, author, content, createdAt }: Answer) => {
           </Link>
         </div>
 
-        <div className="flex justify-end">Votes</div>
+        <div className="flex justify-end">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Votes
+              votes={votes}
+              hasVotedPromise={hasVotedPromise}
+              targetType="answer"
+              targetId={_id}
+            />
+          </Suspense>
+        </div>
       </div>
 
       <Preview content={content} />
