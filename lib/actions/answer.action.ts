@@ -13,7 +13,7 @@ import mongoose from "mongoose";
 import { Question } from "@/database";
 import { revalidatePath } from "next/cache";
 import ROUTES from "@/constants/routes";
-import { GetAnswersParams } from "@/types/action";
+import { CreateAnswerParams, GetAnswersParams } from "@/types/action";
 
 export async function createAnswer(
   params: CreateAnswerParams
@@ -108,9 +108,9 @@ export async function getAnswers(params: GetAnswersParams): Promise<
   }
 
   try {
-    const totalAnswers = await Answer.countDocuments({ question: questionId });
+    const totalAnswers = await Answer.countDocuments({ questionId });
 
-    const answers = await Answer.find({ question: questionId })
+    const answers = await Answer.find({ questionId })
       .populate("author", "_id name image")
       .sort(sortCriteria)
       .skip(skip)
