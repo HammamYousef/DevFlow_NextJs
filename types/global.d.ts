@@ -79,3 +79,9 @@ interface User {
   reputation?: number;
   createdAt: Date;
 }
+
+interface Collection {
+  _id: string;
+  author: string | Author;
+  question: Question;
+}
