@@ -1,26 +1,40 @@
 "use client";
 
 import { formatNumber } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { createVote } from "@/lib/actions/vote.action";
+import { ActionResponse } from "@/types/global";
+import { HasVotedResponse } from "@/types/action";
 
 interface VotesProps {
+  targetId: string;
+  targetType: "question" | "answer";
   votes: {
     upvotes: number;
     downvotes: number;
   };
   hasUpvoted?: boolean;
   hasDownvoted?: boolean;
+  hasVotedPromise: Promise<ActionResponse<HasVotedResponse>>;
 }
 
-const Votes = ({ votes, hasUpvoted, hasDownvoted }: VotesProps) => {
+const Votes = ({
+  votes,
+  targetId,
+  targetType,
+  hasVotedPromise,
+}: VotesProps) => {
   const session = useSession();
   const userId = session.data?.user?.id;
 
+  const { success, data } = use(hasVotedPromise);
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const { hasUpvoted, hasDownvoted } = data || {};
 
   const handleVote = async (voteType: "upvote" | "downvote") => {
     if (!userId)

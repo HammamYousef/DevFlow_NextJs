@@ -23,11 +23,8 @@ const QuestionSchema = new Schema<IQuestion>(
     answers: { type: Number, default: 0 },
     views: { type: Number, default: 0 },
     votes: {
-      type: {
-        upvotes: { type: Number, default: 0 },
-        downvotes: { type: Number, default: 0 },
-      },
-      default: {},
+      upvotes: { type: Number, default: 0 },
+      downvotes: { type: Number, default: 0 },
     },
   },
   {

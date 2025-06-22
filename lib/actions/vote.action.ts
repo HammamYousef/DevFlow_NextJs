@@ -21,6 +21,7 @@ import {
   HasVotedSchema,
   UpdateVoteCountSchema,
 } from "../validation";
+import ROUTES from "@/constants/routes";
 
 async function updateVoteCount(
   params: UpdateVoteCountParams,
@@ -43,7 +44,7 @@ async function updateVoteCount(
   try {
     const result = await Model.findByIdAndUpdate(
       targetId,
-      { $inc: { [voteField]: change } },
+      { $inc: { [`votes.${voteField}`]: change } },
       { new: true, session }
     );
 
@@ -129,7 +130,7 @@ export async function createVote(
           {
             author: userId,
             targetId,
-            Type: targetType,
+            type: targetType,
             voteType,
           },
         ],
@@ -149,7 +150,7 @@ export async function createVote(
     await session.commitTransaction();
     session.endSession();
 
-    revalidatePath(`/questions/${targetId}`);
+    revalidatePath(ROUTES.QUESTION(targetId));
 
     return { success: true };
   } catch (error) {
@@ -179,7 +180,7 @@ export async function hasVoted(
     const vote = await Vote.findOne({
       author: userId,
       targetId,
-      Type: targetType,
+      type: targetType,
     });
 
     if (!vote)
