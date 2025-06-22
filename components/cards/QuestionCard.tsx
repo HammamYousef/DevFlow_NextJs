@@ -22,7 +22,7 @@ const QuestionCard = ({
           </span>
           <Link
             href={ROUTES.QUESTION(_id)}
-            className="ml-2 text-dark100_light900 hover:text-primary-500 dark:text-light-500 dark:hover:text-primary-500"
+            className="text-dark100_light900 hover:text-primary-500 dark:text-light-500 dark:hover:text-primary-500"
           >
             <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
               {title}
