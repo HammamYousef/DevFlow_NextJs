@@ -5,6 +5,7 @@ import { MDXEditorMethods } from "@mdxeditor/editor";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import { useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,8 +18,9 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { AnswerSchema } from "@/lib/validation";
 import { createAnswer } from "@/lib/actions/answer.action";
+import { api } from "@/lib/api";
+import { AnswerSchema } from "@/lib/validation";
 import { toast } from "sonner";
 
 const Editor = dynamic(() => import("@/components/editor"), {
@@ -27,11 +29,14 @@ const Editor = dynamic(() => import("@/components/editor"), {
 
 interface Props {
   questionId: string;
+  questionTitle: string;
+  questionContent: string;
 }
 
-const AnswerForm = ({ questionId }: Props) => {
+const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
   const [isAnswering, startAnsweringTransition] = useTransition();
   const [isAISubmitting, setIsAISubmitting] = useState(false);
+  const session = useSession();
 
   const editorRef = useRef<MDXEditorMethods>(null);
 
@@ -58,14 +63,51 @@ const AnswerForm = ({ questionId }: Props) => {
           editorRef.current.setMarkdown("");
         }
       } else {
-        toast.error(
-          result.error?.message || "An error occurred while posting your answer"
-        );
+        toast.error(result.error?.message || "An error occurred");
       }
     });
   };
 
-  const generateAIAnswer = async () => {};
+  const generateAIAnswer = async () => {
+    if (session.status !== "authenticated") {
+      return toast.error("You need to be logged in to use this feature");
+    }
+
+    setIsAISubmitting(true);
+
+    const userAnswer = editorRef.current?.getMarkdown();
+
+    try {
+      const { success, data, error } = await api.ai.getAnswer(
+        questionTitle,
+        questionContent,
+        userAnswer
+      );
+
+      if (!success || !data) {
+        return toast.error(error?.message || "An error occurred");
+      }
+
+      const formattedAnswer = data.replace(/<br>/g, " ").toString().trim();
+
+      if (editorRef.current) {
+        editorRef.current.setMarkdown(formattedAnswer);
+
+        form.setValue("content", formattedAnswer);
+        form.trigger("content");
+      }
+
+      toast.success("AI generated answer has been generated");
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "There was a problem with your request"
+      );
+    } finally {
+      setIsAISubmitting(false);
+    }
+  };
 
   return (
     <div>
