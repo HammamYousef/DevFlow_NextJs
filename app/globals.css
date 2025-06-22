@@ -5,8 +5,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
-body { font-family: "Inter", sans-serif; }
+body {
+  font-family: "Inter", sans-serif;
+}
 
 @theme {
   --color-primary-100: #fff1e6;
@@ -301,6 +302,10 @@ body { font-family: "Inter", sans-serif; }
 
 @utility flex-start {
   @apply flex justify-start items-center;
+}
+
+@utility flex-end {
+  @apply flex justify-end items-center;
 }
 
 @utility card-wrapper {
