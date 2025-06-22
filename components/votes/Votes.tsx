@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { createVote } from "@/lib/actions/vote.action";
 
 interface VotesProps {
   votes: {
