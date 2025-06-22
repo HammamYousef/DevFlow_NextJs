@@ -66,3 +66,16 @@ interface Answer {
     downvotes: number;
   };
 }
+
+interface User {
+  _id: string;
+  name: string;
+  username: string;
+  email: string;
+  bio?: string;
+  image?: string;
+  loc?: string;
+  portfolio?: string;
+  reputation?: number;
+  createdAt: Date;
+}

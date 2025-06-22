@@ -11,7 +11,7 @@ interface QuestionProps {
 }
 
 const QuestionCard = ({
-  question: { _id, title, tags, author, createdAt, upvotes, answers, views },
+  question: { _id, title, tags, author, createdAt, votes, answers, views },
 }: QuestionProps) => {
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
@@ -53,7 +53,7 @@ const QuestionCard = ({
             imgSrc="/icons/like.svg"
             alt="like"
             title="Votes"
-            value={upvotes}
+            value={votes.upvotes}
             textStyles="small-medium text-dark400_light800"
           />
           <Metric
