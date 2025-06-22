@@ -19,7 +19,10 @@ interface Question {
   tags: Tag[];
   author: Author;
   createdAt: Date;
-  upvotes: number;
+  votes: {
+    upvotes: number;
+    downvotes: number;
+  };
   answers: number;
   views: number;
 }
