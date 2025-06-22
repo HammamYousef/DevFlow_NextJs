@@ -3,11 +3,12 @@ import { Preview } from "@/components/editor/Preview";
 import Metric from "@/components/metric/Metric";
 import UserAvatar from "@/components/User/UserAvatar";
 import ROUTES from "@/constants/routes";
-import { getQuestion } from "@/lib/actions/question.action";
+import { getQuestion, incrementViews } from "@/lib/actions/question.action";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 import { RouteParams, Tag } from "@/types/global";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import React from "react";
 
 const QuestionDetails = async ({ params }: RouteParams) => {
@@ -15,6 +16,12 @@ const QuestionDetails = async ({ params }: RouteParams) => {
 
   const { success, data: question } = await getQuestion({
     questionId: id,
+  });
+
+  after(async () => {
+    await incrementViews({
+      questionId: id,
+    });
   });
 
   if (!success || !question) {
@@ -31,6 +38,7 @@ const QuestionDetails = async ({ params }: RouteParams) => {
             <UserAvatar
               id={author._id}
               name={author.name}
+              imageUrl={author.image}
               className="size-[22px]"
               fallbackClassName="text-[10px]"
             />
