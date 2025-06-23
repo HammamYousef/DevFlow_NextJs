@@ -26,6 +26,7 @@ import {
   getQuestionParams,
   IncrementViewsParams,
 } from "@/types/action";
+import dbConnect from "../mongoose";
 
 export async function createQuestion(
   params: CreateQuestionParams
@@ -341,6 +342,25 @@ export async function incrementViews(
     return {
       success: true,
       data: { views: question.views },
+    };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
+
+export async function getHotQuestions(): Promise<
+  ActionResponse<QuestionType[]>
+> {
+  try {
+    await dbConnect();
+
+    const questions = await Question.find()
+      .sort({ "votes.upvotes": -1, views: -1 })
+      .limit(5);
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(questions)),
     };
   } catch (error) {
     return handleError(error) as ErrorResponse;
