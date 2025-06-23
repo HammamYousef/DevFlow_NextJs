@@ -1,32 +1,5 @@
 import { NextResponse } from "next/server";
 
-interface Tag {
-  _id: string;
-  name: string;
-  questionsCount?: number;
-}
-
-interface Author {
-  _id: string;
-  name: string;
-  image: string;
-}
-
-interface Question {
-  _id: string;
-  title: string;
-  content: string;
-  tags: Tag[];
-  author: Author;
-  createdAt: Date;
-  votes: {
-    upvotes: number;
-    downvotes: number;
-  };
-  answers: number;
-  views: number;
-}
-
 type ActionResponse<T = null> = {
   success: boolean;
   data?: T;
@@ -65,6 +38,33 @@ interface Answer {
     upvotes: number;
     downvotes: number;
   };
+}
+
+interface Tag {
+  _id: string;
+  name: string;
+  questionsCount?: number;
+}
+
+interface Author {
+  _id: string;
+  name: string;
+  image: string;
+}
+
+interface Question {
+  _id: string;
+  title: string;
+  content: string;
+  tags: Tag[];
+  author: Author;
+  createdAt: Date;
+  votes: {
+    upvotes: number;
+    downvotes: number;
+  };
+  answers: number;
+  views: number;
 }
 
 interface User {
