@@ -31,6 +31,12 @@ export async function createAnswer(
   const { content, questionId } = validationResult.params!;
   const userId = validationResult.session?.user?.id;
 
+  if (!userId) {
+    return handleError(
+      new Error("You must be logged in to answer.")
+    ) as ErrorResponse;
+  }
+
   const session = await mongoose.startSession();
   session.startTransaction();
 

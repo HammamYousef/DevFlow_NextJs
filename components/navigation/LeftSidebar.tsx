@@ -26,7 +26,7 @@ const LeftSidebar = async () => {
             className="text-dark300_light900 flex-start gap-4 bg-transparent p-4 flex items-center"
           >
             <Image
-              src={`/Icons/${typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "logout-dark.svg" : "logout.svg"}`}
+              src="/Icons/logout.svg"
               alt="Logout Icon"
               width={20}
               height={20}

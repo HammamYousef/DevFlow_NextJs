@@ -1,6 +1,8 @@
 import TagCard from "@/components/cards/TagCard";
 import DataRenderer from "@/components/DataRenderer";
+import CommonFilter from "@/components/filters/CommonFilter";
 import LocalSearch from "@/components/search/LocalSearch";
+import { TagFilters } from "@/constants/filters";
 import ROUTES from "@/constants/routes";
 import { EMPTY_TAGS } from "@/constants/states";
 import { getTags } from "@/lib/actions/tag.action";
@@ -17,7 +19,7 @@ const Tags = async ({ searchParams }: RouteParams) => {
     filter,
   });
 
-  const { tags, isNext } = data || {};
+  const { tags } = data || {};
 
   return (
     <>
@@ -31,10 +33,10 @@ const Tags = async ({ searchParams }: RouteParams) => {
           otherClasses="flex-1"
         />
 
-        {/* <CommonFilter
+        <CommonFilter
           filters={TagFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
-        /> */}
+        />
       </div>
 
       <DataRenderer

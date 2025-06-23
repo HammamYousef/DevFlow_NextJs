@@ -20,6 +20,12 @@ import Question, { IQuestionDoc } from "@/database/question.model";
 import Tag, { ITagDoc } from "@/database/tag.model";
 import TagQuestion, { ITagQuestion } from "@/database/tag-question.model";
 import { NotFoundError, UnauthorizedError } from "../http-errors";
+import {
+  CreateQuestionParams,
+  editQuestionParams,
+  getQuestionParams,
+  IncrementViewsParams,
+} from "@/types/action";
 
 export async function createQuestion(
   params: CreateQuestionParams
@@ -281,7 +287,7 @@ export async function getQuestions(
       sortCriteria = { createdAt: -1 };
       break;
     case "popular":
-      sortCriteria = { upvotes: -1 };
+      sortCriteria = { "votes.upvotes": -1 };
       break;
     default:
       sortCriteria = { createdAt: -1 };

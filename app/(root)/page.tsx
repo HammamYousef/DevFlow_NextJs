@@ -1,8 +1,10 @@
 import QuestionCard from "@/components/cards/QuestionCard";
 import DataRenderer from "@/components/DataRenderer";
+import CommonFilter from "@/components/filters/CommonFilter";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
+import { HomePageFilters } from "@/constants/filters";
 import ROUTES from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getQuestions } from "@/lib/actions/question.action";
@@ -25,18 +27,6 @@ const Home = async ({ searchParams }: SearchParams) => {
 
   const { questions } = data || {};
 
-  // const queryFilteredQuestions = someQuestions.filter((question) => {
-  //   const matchesQuery = question.title
-  //     .toLowerCase()
-  //     .includes(query.toLowerCase());
-  //   const matchesFilter =
-  //     !filter ||
-  //     question.tags.some(
-  //       (tag) => tag.name.toLowerCase() === filter.toLowerCase()
-  //     );
-  //   return matchesQuery && matchesFilter;
-  // });
-
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center ">
@@ -50,12 +40,18 @@ const Home = async ({ searchParams }: SearchParams) => {
         </Button>
       </section>
 
-      <section className="mt-11">
+      <section className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearch
-          route="/"
+          route={ROUTES.HOME}
           imgSrc="/icons/search.svg"
           placeholder="Search Questions..."
           otherClasses="flex-1"
+        />
+
+        <CommonFilter
+          filters={HomePageFilters}
+          otherClasses="min-h-[56px] sm:min-w-[170px]"
+          containerClasses="min-sm:hidden"
         />
       </section>
 
