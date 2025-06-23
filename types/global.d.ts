@@ -38,6 +38,7 @@ interface Answer {
     upvotes: number;
     downvotes: number;
   };
+  questionId: string;
 }
 
 interface Tag {

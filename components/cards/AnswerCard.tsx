@@ -1,4 +1,4 @@
-import { getTimeStamp } from "@/lib/utils";
+import { cn, getTimeStamp } from "@/lib/utils";
 import { Answer } from "@/types/global";
 import UserAvatar from "../User/UserAvatar";
 import Link from "next/link";
@@ -8,14 +8,30 @@ import { Suspense } from "react";
 import Votes from "../votes/Votes";
 import { hasVoted } from "@/lib/actions/vote.action";
 
-const AnswerCard = ({ _id, author, content, createdAt, votes }: Answer) => {
+interface AnswerCardProps extends Answer {
+  containerClasses?: string;
+  showReadMore?: boolean;
+}
+
+const AnswerCard = ({
+  _id,
+  author,
+  content,
+  createdAt,
+  votes,
+  questionId,
+  containerClasses,
+  showReadMore = false,
+}: AnswerCardProps) => {
   const hasVotedPromise = hasVoted({
     targetId: _id,
     targetType: "answer",
   });
 
   return (
-    <article className={"light-border border-b py-10 relative"}>
+    <article
+      className={cn("light-border border-b py-10 relative", containerClasses)}
+    >
       <span id={`answer-${_id}`} />
 
       <div className="mb-5 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -55,6 +71,15 @@ const AnswerCard = ({ _id, author, content, createdAt, votes }: Answer) => {
       </div>
 
       <Preview content={content} />
+
+      {showReadMore && (
+        <Link
+          href={`/questions/${questionId}#answer-${_id}`}
+          className="body-semibold relative z-10 font-space-grotesk text-primary-500"
+        >
+          <p className="mt-1">Read more...</p>
+        </Link>
+      )}
     </article>
   );
 };
