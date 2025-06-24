@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteQuestion } from "@/lib/actions/question.action";
 import { toast } from "sonner";
+import { deleteAnswer } from "@/lib/actions/answer.action";
 
 interface EditDeleteActionProps {
   type?: "question" | "answer";
@@ -33,10 +34,8 @@ const EditDeleteAction = ({ type, itemId }: EditDeleteActionProps) => {
       await deleteQuestion({ questionId: itemId });
 
       toast.success("Question deleted successfully.");
-    }
-    if (type === "answer") {
-      // Implement delete answer logic here
-      // await deleteAnswer({ answerId: itemId });
+    } else if (type === "answer") {
+      await deleteAnswer({ answerId: itemId });
 
       toast.success("Answer deleted successfully.");
     }

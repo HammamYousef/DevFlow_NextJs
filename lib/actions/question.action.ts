@@ -423,7 +423,7 @@ export async function deleteQuestion(
     );
 
     const answers = await Answer.find({
-      question: validatedQuestionId,
+      questionId: validatedQuestionId,
     }).session(session);
 
     if (answers.length > 0) {
