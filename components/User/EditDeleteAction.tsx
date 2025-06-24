@@ -13,10 +13,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { deleteQuestion } from "@/lib/actions/question.action";
+import { toast } from "sonner";
 
 interface EditDeleteActionProps {
   type?: "question" | "answer";
-  itemId?: string;
+  itemId: string;
 }
 
 const EditDeleteAction = ({ type, itemId }: EditDeleteActionProps) => {
@@ -26,7 +28,19 @@ const EditDeleteAction = ({ type, itemId }: EditDeleteActionProps) => {
     router.push(`/questions/${itemId}/edit`);
   };
 
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    if (type === "question") {
+      await deleteQuestion({ questionId: itemId });
+
+      toast.success("Question deleted successfully.");
+    }
+    if (type === "answer") {
+      // Implement delete answer logic here
+      // await deleteAnswer({ answerId: itemId });
+
+      toast.success("Answer deleted successfully.");
+    }
+  };
 
   return (
     <div
