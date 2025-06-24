@@ -1,4 +1,6 @@
+import { BADGE_CRITERIA } from "@/constants";
 import { techDescriptionMap, techMap } from "@/constants/techMap";
+import { BadgeCounts } from "@/types/global";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -51,4 +53,32 @@ export function formatNumber(number: number) {
   } else {
     return number.toString();
   }
+}
+
+export function assignBadges(params: {
+  criteria: {
+    type: keyof typeof BADGE_CRITERIA;
+    count: number;
+  }[];
+}) {
+  const badgeCounts: BadgeCounts = {
+    BRONZE: 0,
+    SILVER: 0,
+    GOLD: 0,
+  };
+
+  const criteria = params.criteria;
+
+  criteria.forEach((item) => {
+    const { type, count } = item;
+    const badgeLevels = BADGE_CRITERIA[type];
+
+    Object.keys(badgeLevels).forEach((level) => {
+      if (count >= badgeLevels[level as keyof typeof badgeLevels]) {
+        badgeCounts[level as keyof BadgeCounts] += 1;
+      }
+    });
+  });
+
+  return badgeCounts;
 }

@@ -23,6 +23,8 @@ import {
   GetAnswersParams,
 } from "@/types/action";
 import { NotFoundError, UnauthorizedError } from "../http-errors";
+import { createInteraction } from "./interaction.action";
+import { after } from "next/server";
 
 export async function createAnswer(
   params: CreateAnswerParams
@@ -70,6 +72,15 @@ export async function createAnswer(
     // update the question answers count
     question.answers += 1;
     await question.save({ session });
+
+    after(async () => {
+      await createInteraction({
+        action: "post",
+        actionId: newAnswer._id.toString(),
+        actionTarget: "answer",
+        authorId: userId as string,
+      });
+    });
 
     await session.commitTransaction();
 
@@ -186,6 +197,15 @@ export async function deleteAnswer(
     await Vote.deleteMany({ targetId: answerId, type: "answer" }, { session });
 
     await Answer.findByIdAndDelete(answerId, { session });
+
+    after(async () => {
+      await createInteraction({
+        action: "delete",
+        actionId: answerId.toString(),
+        actionTarget: "answer",
+        authorId: answer.author as string,
+      });
+    });
 
     await session.commitTransaction();
     session.endSession();

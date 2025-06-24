@@ -32,6 +32,8 @@ import dbConnect from "../mongoose";
 import { Answer, Collection, Vote } from "@/database";
 import { revalidatePath } from "next/cache";
 import ROUTES from "@/constants/routes";
+import { createInteraction } from "./interaction.action";
+import { after } from "next/server";
 
 export async function createQuestion(
   params: CreateQuestionParams
@@ -86,6 +88,15 @@ export async function createQuestion(
       { $push: { tags: { $each: tagId } } },
       { session }
     );
+
+    after(async () => {
+      await createInteraction({
+        action: "post",
+        actionId: question._id.toString(),
+        actionTarget: "question",
+        authorId: userId as string,
+      });
+    });
 
     await session.commitTransaction();
     return {
@@ -438,6 +449,15 @@ export async function deleteQuestion(
     }
 
     await Question.findByIdAndDelete(validatedQuestionId, { session });
+
+    after(async () => {
+      await createInteraction({
+        action: "delete",
+        actionId: validatedQuestionId,
+        actionTarget: "question",
+        authorId: userId as string,
+      });
+    });
 
     await session.commitTransaction();
     session.endSession();
