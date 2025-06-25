@@ -9,21 +9,25 @@ import { HomePageFilters } from "@/constants/filters";
 import ROUTES from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getQuestions } from "@/lib/actions/question.action";
+import { RouteParams } from "@/types/global";
+import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 
-interface SearchParams {
-  searchParams: Promise<{ [key: string]: string }>;
-}
+export const metadata: Metadata = {
+  title: "Dev Overflow | Home",
+  description:
+    "Discover different programming questions and answers with recommendations from the community.",
+};
 
-const Home = async ({ searchParams }: SearchParams) => {
+const Home = async ({ searchParams }: RouteParams) => {
   const { page, pageSize, query, filter } = await searchParams;
 
   const { success, data, error } = await getQuestions({
     page: Number(page) || 1,
     pageSize: Number(pageSize) || 10,
-    query: query || "",
-    filter: filter || "",
+    query,
+    filter,
   });
 
   const { questions, isNext } = data || {};
@@ -37,7 +41,9 @@ const Home = async ({ searchParams }: SearchParams) => {
           className="primary-gradient min-h-[46px] px-4 py-3 !text-light-900"
           asChild
         >
-          <Link href={ROUTES.ASK_QUESTION}>Ask a Question</Link>
+          <Link href={ROUTES.ASK_QUESTION} className="max-sm:w-full">
+            Ask a Question
+          </Link>
         </Button>
       </section>
 
@@ -46,6 +52,7 @@ const Home = async ({ searchParams }: SearchParams) => {
           route={ROUTES.HOME}
           imgSrc="/icons/search.svg"
           placeholder="Search Questions..."
+          iconPosition="left"
           otherClasses="flex-1"
         />
 
