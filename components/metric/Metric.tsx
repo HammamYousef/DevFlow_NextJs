@@ -2,9 +2,10 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import UserAvatar from "../User/UserAvatar";
 
 interface MetricProps {
-  imgSrc?: string;
+  imgSrc: string;
   alt?: string;
   title?: string;
   value: string | number;
@@ -16,7 +17,7 @@ interface MetricProps {
 }
 
 const Metric = ({
-  imgSrc = "/icons/avatar.svg",
+  imgSrc,
   alt = "avatar",
   title,
   value,
@@ -28,13 +29,24 @@ const Metric = ({
 }: MetricProps) => {
   const metricContent = (
     <>
-      <Image
-        src={imgSrc}
-        width={16}
-        height={16}
-        alt={alt}
-        className={`rounded-full object-contain ${imgStyles}`}
-      />
+      {isAuthor ? (
+        <UserAvatar
+          id={href ?? ""}
+          className="h-5 w-5"
+          name={alt ?? ""}
+          imageUrl={imgSrc}
+          key={href ?? ""}
+          fallbackClassName="text-xs"
+        />
+      ) : (
+        <Image
+          src={imgSrc}
+          width={16}
+          height={16}
+          alt={alt}
+          className={`rounded-full object-contain ${imgStyles}`}
+        />
+      )}
 
       <p className={`flex items-center gap-1 ${textStyles}`}>
         {value}
@@ -52,7 +64,7 @@ const Metric = ({
     </>
   );
 
-  return href ? (
+  return href && !isAuthor ? (
     <Link className="flex-center gap-1" href={href}>
       {metricContent}
     </Link>

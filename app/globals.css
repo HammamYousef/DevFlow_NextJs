@@ -229,7 +229,7 @@ body {
 }
 
 @utility small-medium {
-  @apply text-[12px] font-medium leading-[15.6px];
+  @apply text-[12px] font-medium;
 }
 
 @utility small-semibold {

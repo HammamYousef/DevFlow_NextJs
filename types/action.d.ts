@@ -134,3 +134,11 @@ interface GlobalSearchParams {
   query: string;
   type: string | null;
 }
+
+interface UpdateUserParams {
+  name?: string;
+  username?: string;
+  email?: string;
+  image?: string;
+  password?: string;
+}
