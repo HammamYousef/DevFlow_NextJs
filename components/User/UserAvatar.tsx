@@ -38,6 +38,7 @@ const UserAvatar = ({
             alt={name}
             className="object-cover"
             fill
+            sizes="36px"
             quality={100}
           />
         ) : (
