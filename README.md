@@ -1,3 +1,6 @@
+![image](https://github.com/user-attachments/assets/14be87f8-8435-4399-8b51-aeb060cdd8e9)
+
+
 # 💬 DevFlow
 
 DevFlow is a modern full-stack web application inspired by **Stack Overflow**, built to empower developers to ask and answer questions, engage in discussions, explore job opportunities, and connect through a rich, intuitive interface.
