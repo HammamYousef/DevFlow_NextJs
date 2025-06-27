@@ -5,17 +5,18 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = localFont({
-  src: './fonts/InterVF.ttf',
-  variable: '--font-inter',
-  weight: '100 200 300 400 500 700 800 900',
+  src: "./fonts/InterVF.ttf",
+  variable: "--font-inter",
+  weight: "100 200 300 400 500 700 800 900",
 });
 
 const spaceGrotesk = localFont({
-  src: './fonts/SpaceGroteskVF.ttf',
-  variable: '--font-space-grotesk',
-  weight: '300 400 500 700',
+  src: "./fonts/SpaceGroteskVF.ttf",
+  variable: "--font-space-grotesk",
+  weight: "300 400 500 700",
 });
 
 export const metadata: Metadata = {
@@ -37,14 +38,24 @@ const RootLayout = async ({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+        />
       </head>
       <SessionProvider session={session}>
         <body
           className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             {children}
+            <SpeedInsights />
           </ThemeProvider>
           <Toaster />
         </body>
