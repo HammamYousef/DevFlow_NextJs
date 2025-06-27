@@ -26,14 +26,14 @@ const LeftSidebar = async () => {
             className="text-dark300_light900 flex-start gap-4 bg-transparent p-4 flex items-center"
           >
             <Image
-              src={"/Icons/logout.svg"}
+              src={"/Icons/Logout.svg"}
               alt="Logout Icon"
               width={20}
               height={20}
               className="dark:hidden"
             />
             <Image
-              src={"/Icons/logout-dark.svg"}
+              src={"/Icons/Logout-dark.svg"}
               alt="Logout Icon Dark"
               width={20}
               height={20}
